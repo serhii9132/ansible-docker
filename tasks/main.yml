@@ -15,6 +15,8 @@
   ansible.builtin.apt:
     name: "{{ item }}"
     update_cache: true
+  notify:
+    - Enable Docker service
 
 - name: Copy daemon.json
   ansible.builtin.copy:
@@ -23,12 +25,8 @@
     owner: root
     group: root
     mode: '644'
-
-- name: Ensure Docker service is enabled
-  ansible.builtin.service:
-    name: docker
-    state: started
-    enabled: true
+  notify:
+    - Start Docker service
 
 - name: Create docker group
   ansible.builtin.group:
